@@ -13,7 +13,7 @@
                     @csrf
                     @method('DELETE')
 
-                    <button type="submit">Logout</button>
+                    <button type="submit" data-test="log-out-button">Logout</button>
                 </form>
             @endauth
 
