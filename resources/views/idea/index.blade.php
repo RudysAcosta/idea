@@ -23,7 +23,7 @@
                     </x-card>
                 @empty
                     <x-card>
-                        <p>No ideas at this time.</p>
+                        <p>No ideas at this time. </p>
                     </x-card>
                 @endforelse
             </div>
