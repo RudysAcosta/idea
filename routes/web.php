@@ -21,4 +21,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/idea', [IdeaController::class, 'index'])->name('idea.index');
     Route::get('/idea/{id}', [IdeaController::class, 'show'])->name('idea.show');
+    Route::delete('/idea', [IdeaController::class, 'destroy'])->name('idea.destroy');
+
 });
