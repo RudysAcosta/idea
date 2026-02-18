@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/idea');
 
-Route::middleware(['guest'])->group(function() {
+Route::middleware(['guest'])->group(function () {
 
     Route::get('/register', [RegisterUserController::class, 'create']);
     Route::post('/register', [RegisterUserController::class, 'store']);
@@ -22,5 +22,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/idea', [IdeaController::class, 'index'])->name('idea.index');
     Route::get('/idea/{id}', [IdeaController::class, 'show'])->name('idea.show');
 });
-
-

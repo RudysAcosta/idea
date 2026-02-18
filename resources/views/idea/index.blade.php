@@ -8,12 +8,16 @@
         </header>
 
         <div>
-            <a href="/idea" class="btn {{ request()->has('status') ? 'btn-outlined' : ''}}">
+            <a href="/idea" class="btn {{
+                    in_array(request()->get('status'), App\IdeaStatus::values())
+                    ? 'btn-outlined' : ''}}">
                 All
+                <span class="text-xs pl-3"> {{ $statusCounts->get('all') }}</span>
             </a>
             @foreach(App\IdeaStatus::cases() as $status)
                 <a href="/idea?status={{ $status->value }}" class="btn {{ request('status') === $status->value ? '' : 'btn-outlined' }}">
                     {{ $status->label() }}
+                    <span class="text-xs pl-3"> {{ $statusCounts->get($status->value) }}</span>
                 </a>
             @endforeach
         </div>
