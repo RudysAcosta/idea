@@ -11,6 +11,7 @@
                 @click="$dispatch('open-modal', 'create-idea')"
                 is="button"
                 type="button"
+                data-test="create-idea-button"
                 class="mt-10 cursor-pointer h-32 w-full text-left">
                 <p>What's the idea?</p>
             </x-card>
@@ -56,8 +57,12 @@
         </div>
 
         <!-- modal -->
-        <x-modal name="create-idea" title="New Idea">
-            <form x-data="{status: 'pending'}" id="create-idea" method="post" action="{{ route('idea.store') }}">
+        <x-modal
+            name="create-idea"
+            title="New Idea"
+            :show="$errors->hasAny(['title', 'description', 'status'])"
+        >
+            <form x-data="{status: @js(old('status', 'pending'))}" id="create-idea" method="post" action="{{ route('idea.store') }}">
                 @csrf
 
                 <div class="space-y-6">
@@ -76,6 +81,7 @@
                                 <button
                                     type="button"
                                     @click="status = @js($status->value)"
+                                    data-test="button-status-{{ $status->value }}"
                                     class="btn flex-1 h-10"
                                     :class="{'btn-outlined': status !== @js($status->value)}"
                                 >{{ $status->label() }}</button>
@@ -97,7 +103,11 @@
                         <button type="button"
                                @click="$dispatch('close-modal', 'create-idea')"
                                class="btn btn-outlined text-red-500">Cancel</button>
-                        <button form="create-idea" type="submit" class="btn" >Create</button>
+                        <button
+                            form="create-idea"
+                            type="submit"
+                            data-test="submit-create-idea-button"
+                            class="btn"  >Create</button>
                     </div>
 
                 </div>
