@@ -62,7 +62,14 @@
             title="New Idea"
             :show="$errors->hasAny(['title', 'description', 'status'])"
         >
-            <form x-data="{status: @js(old('status', 'pending'))}" id="create-idea" method="post" action="{{ route('idea.store') }}">
+            <form x-data="{
+                        status: @js(old('status', 'pending')),
+                        newLink: '',
+                        links: []
+                    }"
+                  id="create-idea"
+                  method="post"
+                  action="{{ route('idea.store') }}">
                 @csrf
 
                 <div class="space-y-6">
@@ -89,7 +96,7 @@
                             <input type="hidden" name="status" :value="status">
                         </div>
 
-                        <x-form.error name="status" />
+                        <x-form.error name="status"/>
                     </div>
 
                     <x-form.field
@@ -99,15 +106,57 @@
                         phoceholder="Description your idea..."
                     />
 
+                    <div>
+                        <fieldset class="space-y-3">
+                            <legend class="label">Links</legend>
+
+                            <template x-for="(link, index) in links">
+                                <div class="flex gap-x-2 items-center">
+                                    <input name="links[]" x-model="link" class="input">
+                                    <button
+                                        type="button"
+                                        @click="links.splice(index, 1);"
+                                        aria-label="Remove link"
+                                    >
+                                        <x-icons.close class="form-muted-icon" />
+                                    </button>
+                                </div>
+                            </template>
+
+                            <div class="flex gap-x-2 items-center">
+                                <input
+                                    x-model="newLink"
+                                    type="url"
+                                    id="new-link"
+                                    data-test="new-link"
+                                    placeholder="https://example.com"
+                                    autocomplete="url"
+                                    class="input flex-1"
+                                    spellcheck="false">
+                                <button
+                                    type="button"
+                                    data-test="submit-new-link-button"
+                                    @click="links.push(newLink); newLink = ''"
+                                    :disabled="newLink.trim().length === 0"
+                                    aria-label="Add a new link"
+                                >
+                                    <x-icons.plus class="form-muted-icon" />
+                                </button>
+                            </div>
+                        </fieldset>
+                    </div>
+
                     <div class="flex justify-end gap-x-2 items-center">
                         <button type="button"
-                               @click="$dispatch('close-modal', 'create-idea')"
-                               class="btn btn-outlined text-red-500">Cancel</button>
+                                @click="$dispatch('close-modal', 'create-idea')"
+                                class="btn btn-outlined text-red-500">Cancel
+                        </button>
                         <button
                             form="create-idea"
                             type="submit"
                             data-test="submit-create-idea-button"
-                            class="btn"  >Create</button>
+                            class="btn">Create
+                        </button>
                     </div>
 
                 </div>

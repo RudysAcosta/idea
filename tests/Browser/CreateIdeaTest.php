@@ -10,17 +10,22 @@ it('create new idea', function () {
     $this->actingAs($user);
 
     visit('/idea')
-        ->click("@create-idea-button")
+        ->click('@create-idea-button')
         ->fill('title', $title)
         ->click('@button-status-completed')
         ->fill('description', $description)
+        ->fill('@new-link', 'https://ncrousset.dev')
+        ->click('@submit-new-link-button')
+        ->fill('@new-link', 'https://ncrousset2.dev')
+        ->click('@submit-new-link-button')
         ->click('Create')
         ->assertPathIs('/idea');
 
     expect($user->ideas()->first())->toMatchArray([
-       'title' => $title,
-       'status' => 'completed',
-       'description' => $description
+        'title' => $title,
+        'status' => 'completed',
+        'description' => $description,
+        'links' => ['https://ncrousset.dev', 'https://ncrousset2.dev'],
     ]);
 });
 
