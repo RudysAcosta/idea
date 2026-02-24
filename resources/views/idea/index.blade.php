@@ -38,6 +38,14 @@
             <div class="grid md:grid-cols-2 gap-6">
                 @forelse($ideas as $idea)
                     <x-card href="{{ route('idea.show', $idea->id) }}">
+
+                        @if($idea->image_path)
+                            <div class="mb-4 -mx-4 -mt-4 rounded-lg overflow-hidden">
+                                <img src="{{ asset('storage/' .$idea->image_path) }}" alt="image"
+                                     class="w-full h-48 object-cover" />
+                            </div>
+                        @endif
+
                         <h3 class="text-foreground text-lg">{{ $idea->title }}</h3>
                         <div class="mt-1">
                             <x-idea.status-label status="{{ $idea->status }}">
@@ -71,7 +79,8 @@
                     }"
                   id="create-idea"
                   method="post"
-                  action="{{ route('idea.store') }}">
+                  action="{{ route('idea.store') }}"
+                  enctype="multipart/form-data">
                 @csrf
 
                 <div class="space-y-6">
@@ -107,6 +116,12 @@
                         type="textarea"
                         phoceholder="Description your idea..."
                     />
+
+                    <div class="space-y-2">
+                        <label for="image" class="label">Featured Image</label>
+                        <input type="file" id="image" name="image" accept="image/*" />
+                        <x-form.error name="image" />
+                    </div>
 
                     <div>
                         <fieldset class="space-y-3">
