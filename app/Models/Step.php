@@ -18,6 +18,8 @@ class Step extends Model
         'completed' => false,
     ];
 
+    protected $guarded = [];
+
     public function idea(): BelongsTo
     {
         return $this->belongsTo(Idea::class);

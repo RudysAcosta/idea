@@ -3,6 +3,7 @@
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\StepController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/idea');
@@ -23,5 +24,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/idea/{id}', [IdeaController::class, 'show'])->name('idea.show');
     Route::post('/idea', [IdeaController::class, 'store'])->name('idea.store');
     Route::delete('/idea', [IdeaController::class, 'destroy'])->name('idea.destroy');
+    Route::patch('steps/{step}', [StepController::class, 'update'])->name('step.update');
 
 });
