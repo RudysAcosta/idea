@@ -18,15 +18,18 @@ it('create new idea', function () {
         ->click('@submit-new-link-button')
         ->fill('@new-link', 'https://ncrousset2.dev')
         ->click('@submit-new-link-button')
-        ->click('Create')
+        ->click('@submit-create-idea-button')
         ->assertPathIs('/idea');
 
-    expect($user->ideas()->first())->toMatchArray([
-        'title' => $title,
-        'status' => 'completed',
-        'description' => $description,
-        'links' => ['https://ncrousset.dev', 'https://ncrousset2.dev'],
-    ]);
+    $lastIdea = $user->ideas()->latest('id')->first();
+
+    expect($lastIdea)->not->toBeNull()
+        ->and($lastIdea->title)->toBe($title)
+        ->and($lastIdea->status->value)->toBe('completed')
+        ->and($lastIdea->description)->toBe($description)
+        ->and($lastIdea->links->getArrayCopy())
+        ->toBe(['https://ncrousset.dev', 'https://ncrousset2.dev']);
+
 });
 
 it('closes the create idea modal when cancel is clicked', function () {

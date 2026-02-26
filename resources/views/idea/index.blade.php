@@ -80,7 +80,8 @@
                   id="create-idea"
                   method="post"
                   action="{{ route('idea.store') }}"
-                  enctype="multipart/form-data">
+                  enctype="multipart/form-data"
+            >
                 @csrf
 
                 <div class="space-y-6">
